@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggest a Game • GameVerse</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="navbar-title">GameVerse</div>
+        <div class="navbar-time" id="currentTime"></div>
+    </nav>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav" id="sideNav">
+        <ul class="nav-links">
+            <li><a href="suggest.html">Suggest a Game</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="more-games.html">More Games</a></li>
+            <li><a href="#" onclick="openModal('notAddedModal')">Suggested Games That Will Not Be Added</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Suggest a Game</h1>
+            <p>Please submit game suggestions using the Google Form linked below. We require accurate and honest information — if any details are found to be false or misleading (for example, claiming a $50 game is free), the suggestion will be ignored and the game will not be added.</p>
+        </section>
+
+        <section class="content">
+            <div class="modal-content">
+                <div class="modal-content-text">
+                    <p><a href="https://forms.gle/REPLACE_WITH_YOUR_FORM" target="_blank" rel="noopener noreferrer">Submit a suggestion via our Google Form</a></p>
+                    <p>By submitting the form you confirm the information is truthful to the best of your knowledge. Dishonest or fabricated submissions will be discarded.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

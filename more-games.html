@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Games • GameVerse</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    <div class="navbar-title">GameVerse</div>
+        <div class="navbar-time" id="currentTime"></div>
+    </nav>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav" id="sideNav">
+        <ul class="nav-links">
+            <li><a href="suggest.html">Suggest a Game</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" onclick="openModal('notAddedModal')">Suggested Games That Will Not Be Added</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>More Games</h1>
+            <p>Discover even more amazing games curated by RexMonster5496. Each title has been carefully selected for its quality gameplay, engaging mechanics, and overall fun factor. Whether you're looking for the next big adventure or a hidden gem, our expanded collection has something for every type of gamer. We add a new game at least once a week (sometimes more, depending on our staff).</p>
+        </section>
+
+        <!-- More Games Section -->
+        <section class="top-games-section">
+            <h2 class="top-games-title">Additional Game Recommendations</h2>
+        </section>
+
+        <!-- Game Cards Grid -->
+        <section class="blog-posts">
+            <article class="blog-card">
+                <h3>No Man's Sky</h3>
+                <img src="img/No_Man's_Sky.jpg" alt="No Man's Sky game art" class="blog-card-image">
+                <p>No Man's Sky is an expansive space exploration and survival game that sends you to procedurally generated planets to discover flora, fauna, resources, and build bases across the galaxy. It's available on Steam, PlayStation, and Xbox. Pricing varies by platform (around $95 on average depending on platform), and we tested the game before adding it — we purchased it on Steam for $90 during our testing.</p>
+            </article>
+
+            <article class="blog-card">
+                <h3>Forza Horizon 5</h3>
+                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=400&fit=crop" alt="Forza Horizon racing" class="blog-card-image">
+                <p>Open-world racing at its finest with Mexico's diverse landscapes, hundreds of cars, and endless customization options. Pure driving bliss for car enthusiasts.</p>
+            </article>
+
+            <article class="blog-card">
+                <h3>Stardew Valley</h3>
+                <img src="https://images.unsplash.com/photo-1523359346063-d879354c0ea8?w=800&h=400&fit=crop" alt="Stardew Valley farm" class="blog-card-image">
+                <p>Escape to the countryside in this charming farming simulator. Build relationships, grow crops, and create your perfect rural paradise.</p>
+            </article>
+        </section>
+    </div>
+
+    <!-- News Modal -->
+    <div class="modal" id="newsModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('newsModal')">&times;</button>
+            <h2>Latest Gaming News</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h4>Cyberpunk 2077: Phantom Liberty DLC</h4>
+                    <p>CD Projekt Red announces massive expansion with new storylines, characters, and gameplay mechanics. Set to release in Q4 2024.</p>
+                </div>
+                <div class="news-card">
+                    <h4>PlayStation 6 Rumors Heat Up</h4>
+                    <p>Sony reportedly working on next-gen console with advanced AI capabilities and revolutionary controller design. Expected launch window 2026-2027.</p>
+                </div>
+                <div class="news-card">
+                    <h4>Nintendo Switch 2 Confirmed</h4>
+                    <p>Nintendo officially announces successor to Switch with 4K capabilities and enhanced performance. Pre-orders expected to open early 2025.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Modal -->
+    <div class="modal" id="reviewsModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('reviewsModal')">&times;</button>
+            <h2>Game Reviews</h2>
+            <div class="review-section">
+                <h3>Elden Ring: Shadow of the Erdtree</h3>
+                <div class="stars">★★★★★</div>
+                <p>FromSoftware delivers another masterpiece with this expansion. The new areas are breathtaking, the bosses are challenging yet fair, and the lore expansion is phenomenal. A must-play for any Souls-like fan.</p>
+            </div>
+            <div class="review-section">
+                <h3>Baldur's Gate 3</h3>
+                <div class="stars">★★★★★</div>
+                <p>Larian Studios has created the definitive RPG experience. With branching storylines, complex characters, and tactical combat, this game sets a new standard for the genre. Game of the Year material.</p>
+            </div>
+            <div class="review-section">
+                <h3>Spider-Man 2</h3>
+                <div class="stars">★★★★☆</div>
+                <p>Insomniac Games delivers a solid sequel with improved web-swinging mechanics and a compelling story. While it doesn't revolutionize the formula, it's an excellent superhero game that fans will love.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Post Modals -->
+    <div class="modal" id="vrModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('vrModal')">&times;</button>
+            <h2>The Future of Virtual Reality Gaming</h2>
+            <div class="modal-content-text">
+                <p>Virtual reality has come a long way since its inception, and the gaming industry is at the forefront of this technological revolution. With companies like Meta, Valve, and Sony pushing the boundaries of what's possible, we're seeing unprecedented innovation in immersive gaming experiences.</p>
+                
+                <h3>Haptic Feedback Revolution</h3>
+                <p>The latest VR controllers now feature advanced haptic feedback systems that can simulate everything from the recoil of a gun to the gentle touch of a virtual object. This level of tactile feedback creates an unprecedented sense of presence in virtual worlds.</p>
+                
+                <h3>Neural Interface Development</h3>
+                <p>Companies are working on brain-computer interfaces that could allow players to control games with their thoughts. While still in early development, this technology could revolutionize how we interact with digital environments.</p>
+                
+                <h3>Social VR Experiences</h3>
+                <p>Virtual reality is becoming increasingly social, with platforms like VRChat and Meta's Horizon Worlds allowing users to interact in shared virtual spaces. This represents a new frontier in online social interaction.</p>
+                
+                <p><strong>Recommended by RexMonster5496:</strong> For the best VR experience, try Half-Life: Alyx on Steam VR or Beat Saber for a fun, active gaming session.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="indieModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('indieModal')">&times;</button>
+            <h2>Indie Games That Deserve Your Attention</h2>
+            <div class="modal-content-text">
+                <p>Independent developers are the lifeblood of innovation in the gaming industry. Without the constraints of major publishers, indie studios can take creative risks that often result in some of the most memorable gaming experiences.</p>
+                
+                <h3>Hollow Knight: Silksong</h3>
+                <p>Team Cherry's highly anticipated sequel promises to expand on the original's beautiful art style and challenging gameplay. The game features a new protagonist, Hornet, and introduces fresh mechanics while maintaining the beloved Metroidvania formula.</p>
+                
+                <h3>Stardew Valley: 1.6 Update</h3>
+                <p>ConcernedApe continues to support his farming simulator with massive content updates. The latest version adds new crops, animals, and even a new farm type, proving that passion projects can thrive for years after release.</p>
+                
+                <h3>Hades 2</h3>
+                <p>Supergiant Games' sequel to their roguelike masterpiece is currently in early access. The game builds upon the original's strong foundation while introducing new characters, mechanics, and story elements.</p>
+                
+                <p><strong>RexMonster5496's Pick:</strong> "These indie titles showcase the creativity and passion that makes gaming special. Each one offers a unique experience that you won't find in AAA titles."</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="esportsModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('esportsModal')">&times;</button>
+            <h2>Esports: The Rise of Competitive Gaming</h2>
+            <div class="modal-content-text">
+                <p>Esports has evolved from basement LAN parties to stadium-filling spectacles with millions of dollars in prize pools. The competitive gaming scene is now a legitimate sport with professional athletes, coaches, and massive fan bases.</p>
+                
+                <h3>Major Tournaments</h3>
+                <p>Events like The International (Dota 2), League of Legends World Championship, and the Overwatch League are drawing audiences that rival traditional sports. These tournaments feature production values and viewership numbers that would make any sports network envious.</p>
+                
+                <h3>Professional Players</h3>
+                <p>Top esports athletes are now household names, with lucrative sponsorship deals and massive social media followings. Players like Faker (League of Legends) and s1mple (CS:GO) are treated like rock stars in the gaming community.</p>
+                
+                <h3>Educational Opportunities</h3>
+                <p>Universities are now offering scholarships for esports players, and some schools have dedicated gaming facilities. This legitimization of gaming as a career path is opening doors for young players worldwide.</p>
+                
+                <p><strong>RexMonster5496's Insight:</strong> "The esports scene is proof that gaming is more than just entertainment—it's a competitive sport that requires skill, strategy, and dedication."</p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Not Added Games Modal -->
+    <div class="modal" id="notAddedModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('notAddedModal')">&times;</button>
+            <h2>Suggested Games That Will Not Be Added</h2>
+            
+            <div style="text-align: center; margin: 20px 0 30px 0;">
+                <button class="not-added-button" onclick="openSplitModal()">List of games that will not be added</button>
+            </div>
+            
+            <div class="modal-content-text">
+                <p>We receive many game suggestions, but not all games can be featured on our platform. Here are some common reasons why certain games might not be added:</p>
+                
+                <h3>Games We Typically Don't Feature:</h3>
+                <ul>
+                    <li>Games with excessive microtransactions or pay-to-win mechanics</li>
+                    <li>Low-quality asset flips or shovelware</li>
+                    <li>Games with problematic content or themes</li>
+                    <li>Unfinished or abandoned early access titles</li>
+                    <li>Games that don't align with our quality standards</li>
+                </ul>
+                
+                <h3>Our Quality Standards:</h3>
+                <p>We focus on games that offer genuine value, quality gameplay, and positive player experiences. We prioritize games that respect players' time and money.</p>
+                
+                <p><strong>RexMonster5496's Policy:</strong> "We're committed to recommending only the best gaming experiences. Quality over quantity is our motto."</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Games List Modal -->
+    <div class="modal" id="gamesListModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeAllModals()">&times;</button>
+            <h2>List of Games That Will Not Be Added</h2>
+            <div class="modal-content-text">
+                <ul class="not-added-list">
+                    <li>
+                        <strong>Candy Crush Saga</strong>
+                        <div class="reason">Pay-to-win mechanics</div>
+                    </li>
+                    <li>
+                        <strong>Clash of Clans</strong>
+                        <div class="reason">Excessive in-app purchases</div>
+                    </li>
+                    <li>
+                        <strong>Pokémon GO</strong>
+                        <div class="reason">Pay-to-play features</div>
+                    </li>
+                    <li>
+                        <strong>Genshin Impact</strong>
+                        <div class="reason">Gacha monetization model</div>
+                    </li>
+                    <li>
+                        <strong>Various Unity Asset Store Games</strong>
+                        <div class="reason">Low-quality asset flips</div>
+                    </li>
+                    <li>
+                        <strong>Unfinished Steam Greenlight Titles</strong>
+                        <div class="reason">Incomplete or abandoned projects</div>
+                    </li>
+                    <li>
+                        <strong>Copy-Paste Survival Games</strong>
+                        <div class="reason">Minimal originality or effort</div>
+                    </li>
+                    <li>
+                        <strong>Generic Puzzle Games</strong>
+                        <div class="reason">Lack of unique gameplay</div>
+                    </li>
+                    <li>
+                        <strong>DayZ</strong>
+                        <div class="reason">Never fully completed</div>
+                    </li>
+                    <li>
+                        <strong>ARK: Survival Evolved</strong>
+                        <div class="reason">Poor optimization concerns</div>
+                    </li>
+                    <li>
+                        <strong>Rust</strong>
+                        <div class="reason">Toxic community reports</div>
+                    </li>
+                    <li>
+                        <strong>7 Days to Die</strong>
+                        <div class="reason">Abandoned development</div>
+                    </li>
+                    <li>
+                        <strong>Hatred</strong>
+                        <div class="reason">Excessive violence</div>
+                    </li>
+                    <li>
+                        <strong>RapeLay</strong>
+                        <div class="reason">Inappropriate content</div>
+                    </li>
+                    <li>
+                        <strong>Adult-Only Titles</strong>
+                        <div class="reason">Not appropriate for our audience</div>
+                    </li>
+                    <li>
+                        <strong>Games Promoting Harmful Behavior</strong>
+                        <div class="reason">Violates content standards</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
