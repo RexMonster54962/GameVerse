@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVerse Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 2s ease-in-out 3s forwards;
+        }
+
+        .loading-title {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .loading-container {
+            width: 400px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00d4ff;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #ff00ff);
+            border-radius: 28px;
+            width: 0%;
+            animation: loadProgress 2.5s ease-in-out forwards;
+            position: relative;
+        }
+
+        .ps5-controller {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            border-radius: 8px;
+            animation: moveController 2.5s ease-in-out forwards;
+            z-index: 2;
+        }
+
+        .ps5-controller::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 30px;
+            height: 15px;
+            background: linear-gradient(45deg, #f5f5f5, #e0e0e0);
+            border-radius: 4px;
+        }
+
+        .ps5-controller::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 24px;
+            height: 9px;
+            background: linear-gradient(45deg, #e8e8e8, #d0d0d0);
+            border-radius: 2px;
+        }
+
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes moveController {
+            0% { left: 0; }
+            100% { left: calc(100% - 40px); }
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px #00d4ff); }
+            to { filter: drop-shadow(0 0 20px #ff00ff); }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-time {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            width: 40px;
+            height: 35px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background: #333;
+            margin: 6px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Side Navbar */
+        .side-nav {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            z-index: 999;
+            transition: left 0.4s ease;
+            box-shadow: 5px 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .side-nav.active {
+            left: 0;
+        }
+
+        .nav-links {
+            padding: 80px 0 0 0;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 20px 0;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 15px 30px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-links a:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-left-color: #00d4ff;
+            color: #00d4ff;
+            transform: translateX(10px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 20px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #000000 !important;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            backdrop-filter: blur(10px);
+            line-height: 1.8;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px #00d4ff); }
+            to { filter: drop-shadow(0 0 20px #ff00ff); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* Top 3 Games Section */
+        .top-games-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .top-games-title {
+            font-size: 2.5rem;
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Blog Posts */
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .blog-card h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .blog-card p {
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .blog-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover .blog-card-image {
+            transform: scale(1.05);
+        }
+
+        .read-more {
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .read-more:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid #00d4ff;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #00d4ff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #ff00ff;
+            transform: scale(1.2);
+        }
+
+        /* News Cards */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .news-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .news-card h4 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .news-card p {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        /* Review Sections */
+        .review-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .review-section:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #cccccc;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-group input:focus + label,
+        .form-group textarea:focus + label,
+        .form-group input:not(:placeholder-shown) + label,
+        .form-group textarea:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            color: #00d4ff;
+            background: #1a1a2e;
+            padding: 0 5px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .modal-content-text {
+            line-height: 1.8;
+            color: #cccccc;
+        }
+
+        .modal-content-text h3 {
+            color: #00d4ff;
+            margin: 25px 0 15px 0;
+            font-size: 1.3rem;
+        }
+
+        .modal-content-text p {
+            margin-bottom: 15px;
+        }
+
+        .modal-content-text strong {
+            color: #ff00ff;
+        }
+
+        .modal-content-text ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .modal-content-text li {
+            margin: 8px 0;
+            color: #cccccc;
+        }
+
+        /* Split Modal Animation */
+        .modal.sliding {
+            animation: slideLeft 0.5s ease forwards;
+        }
+
+        .modal.sliding .modal-content {
+            animation: slideLeftContent 0.5s ease forwards;
+        }
+
+        .modal.right-side {
+            left: 50%;
+            width: 50%;
+            animation: slideInRight 0.5s ease 0.3s both;
+        }
+
+        .modal.right-side .modal-content {
+            animation: zoomIn 0.5s ease 0.5s both;
+        }
+
+        @keyframes slideLeft {
+            to {
+                left: 0;
+                width: 50%;
+            }
+        }
+
+        @keyframes slideLeftContent {
+            to {
+                transform: translateX(-25%);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                left: 100%;
+                opacity: 0;
+            }
+            to {
+                left: 50%;
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .not-added-button {
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .not-added-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .blog-posts {
+                grid-template-columns: 1fr;
+            }
+            
+            .side-nav {
+                width: 250px;
+                left: -250px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="navbar-title">GamerGamesHub</div>
+        <div class="navbar-time" id="currentTime"></div>
+    </nav>
+
+    <!-- Side Navigation -->
+    <nav class="side-nav" id="sideNav">
+        <ul class="nav-links">
+            <li><a href="#" onclick="openModal('suggestGameModal')">Suggest a Game</a></li>
+            <li><a href="more-games.html">More Games</a></li>
+            <li><a href="#" onclick="openModal('notAddedModal')">Suggested Games That Will Not Be Added</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>GamerGamesHub</h1>
+            <p>GamerGamesHub is a curated gaming blog dedicated to showcasing the best of what the gaming world has to offer. We specialize in highlighting top recommendations from RexMonster5496 — covering standout titles across Steam, PlayStation, Roblox, Minecraft servers, and Epic Games. Our mission is to guide players toward high-quality experiences, whether you're exploring new releases, diving into multiplayer servers, or looking for hidden gems. With expert insight and a passion for gaming, GamerGamesHub is your go-to source for trusted game picks and updates.</p>
+        </section>
+
+        <!-- Top 3 Games Section -->
+        <section class="top-games-section">
+            <h2 class="top-games-title">Top 3 Game Of 2025</h2>
+        </section>
+
+
+
+        <!-- Blog Posts -->
+        <section class="blog-posts">
+            <article class="blog-card">
+                <h3>Bloxburg</h3>
+                <img src="img/noFilter.png" alt="Bloxburg house and characters" class="blog-card-image">
+                <p>Bloxburg is a life-simulation and building game on Roblox, where you design homes, work jobs, and roleplay with friends in a vibrant, creative community.</p>
+            </article>
+
+            <article class="blog-card">
+                <h3>The First Descendant</h3>
+                <img src="img/ADDTHISTOO.PNG" alt="The First Descendant gameplay" class="blog-card-image">
+                <p>The First Descendant is a fast-paced, third-person looter-shooter featuring powerful Descendants, co-op boss battles, and deep gear progression. Team up, master unique abilities, and chase high-end loot across dynamic sci‑fi battlefields.</p>
+            </article>
+
+            <article class="blog-card">
+                <h3>LEGO The Incredibles</h3>
+                <img src="img/more.png" alt="LEGO The Incredibles gameplay" class="blog-card-image">
+                <p>LEGO The Incredibles combines the humor of LEGO with Pixar's superhero family across epic missions and free‑roam city adventures. Team up in co‑op, unlock powers for each family member, and collect bricks to rebuild the city with playful, family‑friendly action.</p>
+            </article>
+        </section>
+    </div>
+
+    <!-- News Modal -->
+    <div class="modal" id="newsModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('newsModal')">&times;</button>
+            <h2>Latest Gaming News</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h4>Cyberpunk 2077: Phantom Liberty DLC</h4>
+                    <p>CD Projekt Red announces massive expansion with new storylines, characters, and gameplay mechanics. Set to release in Q4 2024.</p>
+                </div>
+                <div class="news-card">
+                    <h4>PlayStation 6 Rumors Heat Up</h4>
+                    <p>Sony reportedly working on next-gen console with advanced AI capabilities and revolutionary controller design. Expected launch window 2026-2027.</p>
+                </div>
+                <div class="news-card">
+                    <h4>Nintendo Switch 2 Confirmed</h4>
+                    <p>Nintendo officially announces successor to Switch with 4K capabilities and enhanced performance. Pre-orders expected to open early 2025.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Modal -->
+    <div class="modal" id="reviewsModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('reviewsModal')">&times;</button>
+            <h2>Game Reviews</h2>
+            <div class="review-section">
+                <h3>Elden Ring: Shadow of the Erdtree</h3>
+                <div class="stars">★★★★★</div>
+                <p>FromSoftware delivers another masterpiece with this expansion. The new areas are breathtaking, the bosses are challenging yet fair, and the lore expansion is phenomenal. A must-play for any Souls-like fan.</p>
+            </div>
+            <div class="review-section">
+                <h3>Baldur's Gate 3</h3>
+                <div class="stars">★★★★★</div>
+                <p>Larian Studios has created the definitive RPG experience. With branching storylines, complex characters, and tactical combat, this game sets a new standard for the genre. Game of the Year material.</p>
+            </div>
+            <div class="review-section">
+                <h3>Spider-Man 2</h3>
+                <div class="stars">★★★★☆</div>
+                <p>Insomniac Games delivers a solid sequel with improved web-swinging mechanics and a compelling story. While it doesn't revolutionize the formula, it's an excellent superhero game that fans will love.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Post Modals -->
+    <div class="modal" id="vrModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('vrModal')">&times;</button>
+            <h2>The Future of Virtual Reality Gaming</h2>
+            <div class="modal-content-text">
+                <p>Virtual reality has come a long way since its inception, and the gaming industry is at the forefront of this technological revolution. With companies like Meta, Valve, and Sony pushing the boundaries of what's possible, we're seeing unprecedented innovation in immersive gaming experiences.</p>
+                
+                <h3>Haptic Feedback Revolution</h3>
+                <p>The latest VR controllers now feature advanced haptic feedback systems that can simulate everything from the recoil of a gun to the gentle touch of a virtual object. This level of tactile feedback creates an unprecedented sense of presence in virtual worlds.</p>
+                
+                <h3>Neural Interface Development</h3>
+                <p>Companies are working on brain-computer interfaces that could allow players to control games with their thoughts. While still in early development, this technology could revolutionize how we interact with digital environments.</p>
+                
+                <h3>Social VR Experiences</h3>
+                <p>Virtual reality is becoming increasingly social, with platforms like VRChat and Meta's Horizon Worlds allowing users to interact in shared virtual spaces. This represents a new frontier in online social interaction.</p>
+                
+                <p><strong>Recommended by RexMonster5496:</strong> For the best VR experience, try Half-Life: Alyx on Steam VR or Beat Saber for a fun, active gaming session.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="indieModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('indieModal')">&times;</button>
+            <h2>Indie Games That Deserve Your Attention</h2>
+            <div class="modal-content-text">
+                <p>Independent developers are the lifeblood of innovation in the gaming industry. Without the constraints of major publishers, indie studios can take creative risks that often result in some of the most memorable gaming experiences.</p>
+                
+                <h3>Hollow Knight: Silksong</h3>
+                <p>Team Cherry's highly anticipated sequel promises to expand on the original's beautiful art style and challenging gameplay. The game features a new protagonist, Hornet, and introduces fresh mechanics while maintaining the beloved Metroidvania formula.</p>
+                
+                <h3>Stardew Valley: 1.6 Update</h3>
+                <p>ConcernedApe continues to support his farming simulator with massive content updates. The latest version adds new crops, animals, and even a new farm type, proving that passion projects can thrive for years after release.</p>
+                
+                <h3>Hades 2</h3>
+                <p>Supergiant Games' sequel to their roguelike masterpiece is currently in early access. The game builds upon the original's strong foundation while introducing new characters, mechanics, and story elements.</p>
+                
+                <p><strong>RexMonster5496's Pick:</strong> "These indie titles showcase the creativity and passion that makes gaming special. Each one offers a unique experience that you won't find in AAA titles."</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="esportsModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('esportsModal')">&times;</button>
+            <h2>Esports: The Rise of Competitive Gaming</h2>
+            <div class="modal-content-text">
+                <p>Esports has evolved from basement LAN parties to stadium-filling spectacles with millions of dollars in prize pools. The competitive gaming scene is now a legitimate sport with professional athletes, coaches, and massive fan bases.</p>
+                
+                <h3>Major Tournaments</h3>
+                <p>Events like The International (Dota 2), League of Legends World Championship, and the Overwatch League are drawing audiences that rival traditional sports. These tournaments feature production values and viewership numbers that would make any sports network envious.</p>
+                
+                <h3>Professional Players</h3>
+                <p>Top esports athletes are now household names, with lucrative sponsorship deals and massive social media followings. Players like Faker (League of Legends) and s1mple (CS:GO) are treated like rock stars in the gaming community.</p>
+                
+                <h3>Educational Opportunities</h3>
+                <p>Universities are now offering scholarships for esports players, and some schools have dedicated gaming facilities. This legitimization of gaming as a career path is opening doors for young players worldwide.</p>
+                
+                <p><strong>RexMonster5496's Insight:</strong> "The esports scene is proof that gaming is more than just entertainment—it's a competitive sport that requires skill, strategy, and dedication."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suggest Game Modal -->
+    <div class="modal" id="suggestGameModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('suggestGameModal')">&times;</button>
+            <h2>Suggest a Game</h2>
+            <div class="modal-content-text">
+                <p>Have a great game recommendation? We'd love to hear from you! Share your favorite games with us and help other gamers discover amazing titles.</p>
+                
+                <h3>What We're Looking For:</h3>
+                <ul>
+                    <li>Hidden gems and underrated titles</li>
+                    <li>Games with unique mechanics or storytelling</li>
+                    <li>Cross-platform experiences (Steam, PlayStation, Epic, etc.)</li>
+                    <li>Games that offer exceptional value</li>
+                    <li>Indie titles that deserve more attention</li>
+                </ul>
+                
+                <h3>How to Submit:</h3>
+                <p>Use the contact form below to send us your game suggestions. Include the game title, platform, and why you think others should play it!</p>
+                
+                <p><strong>RexMonster5496's Note:</strong> "We're always on the lookout for the next great gaming experience. Your suggestions help us discover amazing titles we might have missed!"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Not Added Games Modal -->
+    <div class="modal" id="notAddedModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('notAddedModal')">&times;</button>
+            <h2>Suggested Games That Will Not Be Added</h2>
+            
+            <div style="text-align: center; margin: 20px 0 30px 0;">
+                <button class="not-added-button" onclick="openSplitModal()">List of games that will not be added</button>
+            </div>
+            
+            <div class="modal-content-text">
+                <p>We receive many game suggestions, but not all games can be featured on our platform. Here are some common reasons why certain games might not be added:</p>
+                
+                <h3>Games We Typically Don't Feature:</h3>
+                <ul>
+                    <li>Games with excessive microtransactions or pay-to-win mechanics</li>
+                    <li>Low-quality asset flips or shovelware</li>
+                    <li>Games with problematic content or themes</li>
+                    <li>Unfinished or abandoned early access titles</li>
+                    <li>Games that don't align with our quality standards</li>
+                </ul>
+                
+                <h3>Our Quality Standards:</h3>
+                <p>We focus on games that offer genuine value, quality gameplay, and positive player experiences. We prioritize games that respect players' time and money.</p>
+                
+                <p><strong>RexMonster5496's Policy:</strong> "We're committed to recommending only the best gaming experiences. Quality over quantity is our motto."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Games List Modal -->
+    <div class="modal" id="gamesListModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeAllModals()">&times;</button>
+            <h2>List of Games That Will Not Be Added</h2>
+            <div class="modal-content-text">
+                <ul class="not-added-list">
+                    <li>
+                        <strong>Candy Crush Saga</strong>
+                        <div class="reason">Pay-to-win mechanics</div>
+                    </li>
+                    <li>
+                        <strong>Clash of Clans</strong>
+                        <div class="reason">Excessive in-app purchases</div>
+                    </li>
+                    <li>
+                        <strong>Pokémon GO</strong>
+                        <div class="reason">Pay-to-play features</div>
+                    </li>
+                    <li>
+                        <strong>Genshin Impact</strong>
+                        <div class="reason">Gacha monetization model</div>
+                    </li>
+                    <li>
+                        <strong>Various Unity Asset Store Games</strong>
+                        <div class="reason">Low-quality asset flips</div>
+                    </li>
+                    <li>
+                        <strong>Unfinished Steam Greenlight Titles</strong>
+                        <div class="reason">Incomplete or abandoned projects</div>
+                    </li>
+                    <li>
+                        <strong>Copy-Paste Survival Games</strong>
+                        <div class="reason">Minimal originality or effort</div>
+                    </li>
+                    <li>
+                        <strong>Generic Puzzle Games</strong>
+                        <div class="reason">Lack of unique gameplay</div>
+                    </li>
+                    <li>
+                        <strong>DayZ</strong>
+                        <div class="reason">Never fully completed</div>
+                    </li>
+                    <li>
+                        <strong>ARK: Survival Evolved</strong>
+                        <div class="reason">Poor optimization concerns</div>
+                    </li>
+                    <li>
+                        <strong>Rust</strong>
+                        <div class="reason">Toxic community reports</div>
+                    </li>
+                    <li>
+                        <strong>7 Days to Die</strong>
+                        <div class="reason">Abandoned development</div>
+                    </li>
+                    <li>
+                        <strong>Hatred</strong>
+                        <div class="reason">Excessive violence</div>
+                    </li>
+                    <li>
+                        <strong>RapeLay</strong>
+                        <div class="reason">Inappropriate content</div>
+                    </li>
+                    <li>
+                        <strong>Adult-Only Titles</strong>
+                        <div class="reason">Not appropriate for our audience</div>
+                    </li>
+                    <li>
+                        <strong>Games Promoting Harmful Behavior</strong>
+                        <div class="reason">Violates content standards</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const sideNav = document.getElementById('sideNav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            sideNav.classList.toggle('active');
+        });
+
+        // Close side nav when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !sideNav.contains(e.target)) {
+                hamburger.classList.remove('active');
+                sideNav.classList.remove('active');
+            }
+        });
+
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                // Don't close hamburger menu when opening modal
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            
+            // If closing the notAddedModal, also close the gamesListModal
+            if (modalId === 'notAddedModal') {
+                const gamesListModal = document.getElementById('gamesListModal');
+                gamesListModal.classList.remove('active', 'right-side');
+                modal.classList.remove('sliding');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                // Find which modal was clicked and close it properly
+                const modalId = e.target.id;
+                closeModal(modalId);
+            }
+        });
+
+
+        // Animate blog cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.blog-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add hover effects to news cards and review sections
+        document.querySelectorAll('.news-card, .review-section').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Form input animations
+        document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Update time and date
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            const dateString = now.toLocaleDateString();
+            document.getElementById('currentTime').textContent = `${dateString} ${timeString}`;
+        }
+
+        // Update time every second
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Split Modal Functions
+        function openSplitModal() {
+            const currentModal = document.getElementById('notAddedModal');
+            const gamesListModal = document.getElementById('gamesListModal');
+            
+            // Add sliding class to current modal
+            currentModal.classList.add('sliding');
+            
+            // Show and position the games list modal
+            gamesListModal.classList.add('active', 'right-side');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAllModals() {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.classList.remove('active', 'sliding', 'right-side');
+            });
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html> 
